@@ -1,0 +1,143 @@
+In order to write a C application using GLUT you’ll need three files:
+
+glut.h – This is the file you’ll have to include in your source code. The common place to put this file is in the gl folder which should be inside the include folder of your system.
+glut32.lib (Windows version) – This file must be linked to your application so make sure to put it your lib folder.
+glut32.dll (Windows) – You could place the dll file in your exe’s folder.
+------------
+gcc/g++ <filename.c> -lGL -lglut -lGLU
+		     -----------------
+			PARAMETERS - should be included.	
+
+------------
+Include files:
+-------------
+#include <GL/glut.h>
+#include <stdlib.h>
+
+--------------
+Main function :-
+-------------
+
+The skeleton of our main function is going to start as:
+
+int main(int argc, char **argv) {
+
+	// init GLUT and create window
+
+	// register callbacks
+
+	// enter GLUT event processing cycle
+
+}
+
+
+
+
+void glutInitWindowPosition(int x, int y);
+
+Parameters:
+
+x – the number of pixels from the left of the screen.
+-1 is the default value, meaning it is up to the
+window manager to decide where the window will appear.
+If not using the default values then you should pick
+a positive value, preferably one that will fit in your screen.
+y – the number of pixels from the top of the screen.
+The comments mentioned for the x parameter
+also apply in here.
+
+void glutInitWindowSize(int width, int height);
+
+Parameters:
+
+width – The width of the window
+height – the height of the window
+
+
+void glutInitDisplayMode(unsigned int mode)
+
+Parameters:
+
+mode – specifies the display mode
+
+
+int glutCreateWindow(char *title);
+
+Parameters:
+
+title – sets the window title
+
+
+Sample Code:
+----------
+
+#ifdef __APPLE__
+#include <GLUT/glut.h>
+#else
+#include <GL/glut.h>
+#endif
+
+int main(int argc, char **argv) {
+
+	// init GLUT and create Window
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
+	glutInitWindowPosition(100,100);
+	glutInitWindowSize(320,320);
+	glutCreateWindow("Lighthouse3D- GLUT Tutorial");
+
+	return 1;
+
+}
+
+--------------------------------
+Lets create an example function for the rendering. The function presented bellow will clear the color buffer and draw a triangle.
+
+void renderScene(void) {
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	glBegin(GL_TRIANGLES);
+		glVertex3f(-0.5,-0.5,0.0);
+		glVertex3f(0.5,0.0,0.0);
+		glVertex3f(0.0,0.5,0.0);
+	glEnd();
+
+	glutSwapBuffers();
+}
+
+------------------------------------
+void glutReshapeFunc(void (*func)(int width, int height));
+
+Parameters:
+
+func – The name of the function that will be responsible for setting the correct perspective when the window changes size.
+
+
+ we tell OpenGL that all matrix operations that follow will use the modelview matrix. This is just to be on the safe side. Most operations, such as setting the camera and transforming objects will use this matrix. The idea is to have always the modelview matrix as default.
+--------------
+--------------
+
+cube
+pyramid
+colorcube
+sphere
+torus
+
+-------------
+-------------
+
+
+
+glutSolidCube
+glutWireCube
+glutSolidCone
+glutWireCone
+glutSolidTorus
+glutWireTorus
+glutSolidOctahedron
+glutWireOctahedron
+glutSolidTetrahedron
+glutWireTetrahedron
+glutSolidIcosahedron
+glutWireIcosahedron
